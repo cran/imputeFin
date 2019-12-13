@@ -1,0 +1,36 @@
+citHeader("To cite 'imputeFin' in publications, please use:")
+
+citEntry(entry = "Manual",
+         title        = "{imputeFin: Imputation of Financial Time Series with Missing Values}",
+         author       = personList(as.person("J. Liu"),
+                                   as.person("D. P. Palomar")),
+         note         = "R package version 0.1.0",
+         year         = "2019",
+         url          = "https://CRAN.R-project.org/package=imputeFin",
+         textVersion  =
+           paste("J. Liu and D. P. Palomar (2019).",
+                 "imputeFin: Imputation of Financial Time Series with Missing Values.",
+                 "R package version 0.1.0.",
+                 "https://CRAN.R-project.org/package=imputeFin")
+)
+
+citEntry(entry = "Article",
+         title        = "Parameter Estimation of Heavy-Tailed AR Model With 
+                         Missing Data Via Stochastic EM",
+         author       = personList(as.person("J. Liu"),
+                                   as.person("S. Kumar"),
+                                   as.person("D. P. Palomar")),
+         journal      = "IEEE Trans. on Signal Processing",
+         volume       = "67",
+         number       = "8",
+         pages        = "2159--2172",
+         year         = "2019",
+         url          = "https://doi.org/10.1109/TSP.2019.2899816",
+         textVersion  =
+           paste("J. Liu, S. Kumar, and D. P. Palomar (2019).",
+                 "Parameter Estimation of Heavy-Tailed AR Model With 
+                         Missing Data Via Stochastic EM.",
+                 "IEEE Trans. on Signal Processing,",
+                 "vol. 67, no. 8, pp. 2159-2172.",
+                 "https://doi.org/10.1109/TSP.2019.2899816")
+)
