@@ -2,16 +2,19 @@
 % Please edit documentation in R/estimate_impute_AR1_Gaussian.R
 \name{fit_AR1_Gaussian}
 \alias{fit_AR1_Gaussian}
-\title{Fit Gaussian AR(1) model to time series with missing values}
+\title{Fit Gaussian AR(1) model to time series with missing values and/or outliers}
 \usage{
 fit_AR1_Gaussian(
   y,
   random_walk = FALSE,
   zero_mean = FALSE,
+  remove_outliers = FALSE,
+  outlier_prob_th = 0.001,
+  verbose = TRUE,
   return_iterates = FALSE,
   return_condMeanCov = FALSE,
-  tol = 1e-10,
-  maxiter = 1000
+  tol = 1e-08,
+  maxiter = 100
 )
 }
 \arguments{
@@ -24,6 +27,12 @@ fit_AR1_Gaussian(
 \item{zero_mean}{Logical value indicating if the time series is assumed zero-mean so that \code{phi0 = 0} 
 (default is \code{FALSE}).}
 
+\item{remove_outliers}{Logical value indicating whether to detect and remove outliers.}
+
+\item{outlier_prob_th}{Threshold of probability of observation to declare an outlier (default is \code{1e-3}).}
+
+\item{verbose}{Logical value indicating whether to output messages (default is \code{TRUE}).}
+
 \item{return_iterates}{Logical value indicating if the iterates are to be returned (default is \code{FALSE}).}
 
 \item{return_condMeanCov}{Logical value indicating if the conditional mean and covariance matrix of the 
@@ -31,7 +40,7 @@ time series (excluding the leading and trailing missing values) given the observ
 
 \item{tol}{Positive number denoting the relative tolerance used as stopping criterion (default is \code{1e-8}).}
 
-\item{maxiter}{Positive integer indicating the maximum number of iterations allowed (default is \code{1000}).}
+\item{maxiter}{Positive integer indicating the maximum number of iterations allowed (default is \code{100}).}
 }
 \value{
 If the argument \code{y} is a univariate time series (i.e., coercible to a numeric vector), then this 
@@ -47,11 +56,14 @@ If the argument \code{y} is a univariate time series (i.e., coercible to a numer
                              (returned only when \code{return_iterates = TRUE}).}
 \item{\code{f_iterates}}{Numeric vector with the objective values at each iteration
                          (returned only when \code{return_iterates = TRUE}).}
-\item{\code{cond_mean_y}}{Numeric vector (of same length as argument \code{y}) with the conditional mean of the time series (excluding the leading and trailing missing values)
+\item{\code{cond_mean_y}}{Numeric vector (of same length as argument \code{y}) with the conditional mean of the time series 
+                          (excluding the leading and trailing missing values)
                           given the observed data (returned only when \code{return_condMeanCov = TRUE}).}
 \item{\code{cond_cov_y}}{Numeric matrix (with number of columns/rows equal to the length of the argument \code{y})
-                         with the conditional covariance matrix of the time series (excluding the leading and trailing missing values) given the observed data
-                          (returned only when \code{return_condMeanCov = TRUE}).}
+                         with the conditional covariance matrix of the time series (excluding the leading and trailing missing values) 
+                         given the observed data (returned only when \code{return_condMeanCov = TRUE}).}
+\item{\code{index_miss}}{Indices of missing values imputed.}
+\item{\code{index_outliers}}{Indices of outliers detected/corrected.}
 
 If the argument \code{y} is a multivariate time series (i.e., with multiple columns and coercible to a numeric matrix), 
 then this function will return a list with each element as in the case of univariate \code{y} corresponding to each
@@ -66,7 +78,7 @@ estimated values in a convenient vector form:
 }
 \description{
 Estimate the parameters of a univariate Gaussian AR(1) model 
-             to fit the given time series with missing values. 
+             to fit the given time series with missing values and/or outliers. 
              For multivariate time series, the function will perform a 
              number of individual univariate fittings without attempting 
              to model the correlations among the time series.
@@ -87,6 +99,9 @@ R. J. Little and D. B. Rubin, Statistical Analysis with Missing Data, 2nd ed. Ho
 
 J. Liu, S. Kumar, and D. P. Palomar, "Parameter estimation of heavy-tailed AR model with missing 
 data via stochastic EM," IEEE Trans. on Signal Processing, vol. 67, no. 8, pp. 2159-2172, 15 April, 2019.
+}
+\seealso{
+\code{\link{impute_AR1_Gaussian}}, \code{\link{fit_AR1_t}}
 }
 \author{
 Junyan Liu and Daniel P. Palomar

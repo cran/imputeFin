@@ -2,16 +2,19 @@
 % Please edit documentation in R/estimate_impute_AR1_t.R
 \name{fit_AR1_t}
 \alias{fit_AR1_t}
-\title{Fit Student's t AR(1) model to time series with missing values}
+\title{Fit Student's t AR(1) model to time series with missing values and/or outliers}
 \usage{
 fit_AR1_t(
   y,
   random_walk = FALSE,
   zero_mean = FALSE,
   fast_and_heuristic = TRUE,
+  remove_outliers = FALSE,
+  outlier_prob_th = 0.001,
+  verbose = TRUE,
   return_iterates = FALSE,
   return_condMean_Gaussian = FALSE,
-  tol = 1e-10,
+  tol = 1e-08,
   maxiter = 100,
   n_chain = 10,
   n_thin = 1,
@@ -30,6 +33,12 @@ fit_AR1_t(
 
 \item{fast_and_heuristic}{Logical value indicating whether a heuristic but fast method is to be used to 
 estimate the parameters of the Student's t AR(1) model (default is \code{TRUE}).}
+
+\item{remove_outliers}{Logical value indicating whether to detect and remove outliers.}
+
+\item{outlier_prob_th}{Threshold of probability of observation to declare an outlier (default is \code{1e-3}).}
+
+\item{verbose}{Logical value indicating whether to output messages (default is \code{TRUE}).}
 
 \item{return_iterates}{Logical value indicating if the iterates are to be returned (default is \code{FALSE}).}
 
@@ -69,8 +78,10 @@ If the argument \code{y} is a univariate time series (i.e., coercible to a numer
 \item{\code{f_iterates}}{Numeric vector with the objective values at each iteration
                          (returned only when \code{return_iterates = TRUE}).}
 \item{\code{cond_mean_y_Gaussian}}{Numeric vector (of same length as argument \code{y}) with the conditional mean of the 
-                                   time series (excluding the missing values at the head and tail) given the observed data based on Gaussian AR(1) model
-                                   (returned only when \code{return_condMean_Gaussian = TRUE}).}
+                                   time series (excluding the missing values at the head and tail) given the observed data based 
+                                   on Gaussian AR(1) model (returned only when \code{return_condMean_Gaussian = TRUE}).}
+\item{\code{index_miss}}{Indices of missing values imputed.}
+\item{\code{index_outliers}}{Indices of outliers detected/corrected.}
 
 If the argument \code{y} is a multivariate time series (i.e., with multiple columns and coercible to a numeric matrix), 
 then this function will return a list with each element as in the case of univariate \code{y} corresponding to each
@@ -87,7 +98,7 @@ estimated values in a convenient vector form:
 }
 \description{
 Estimate the parameters of a univariate Student's t AR(1) 
-             model to fit the given time series with missing values. 
+             model to fit the given time series with missing values and/or outliers. 
              For multivariate time series, the function will perform a 
              number of indidivual univariate fittings without attempting 
              to model the correlations among the time series.
@@ -108,6 +119,9 @@ fitted <- fit_AR1_t(y_missing)
 \references{
 J. Liu, S. Kumar, and D. P. Palomar, "Parameter estimation of heavy-tailed AR model with missing 
 data via stochastic EM," IEEE Trans. on Signal Processing, vol. 67, no. 8, pp. 2159-2172, 15 April, 2019.
+}
+\seealso{
+\code{\link{impute_AR1_t}}, \code{\link{fit_AR1_Gaussian}}
 }
 \author{
 Junyan Liu and Daniel P. Palomar

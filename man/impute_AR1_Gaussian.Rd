@@ -7,13 +7,14 @@
 impute_AR1_Gaussian(
   y,
   n_samples = 1,
-  impute_leading_NAs = FALSE,
-  impute_trailing_NAs = FALSE,
   random_walk = FALSE,
   zero_mean = FALSE,
+  remove_outliers = FALSE,
+  outlier_prob_th = 0.001,
+  verbose = TRUE,
   return_estimates = FALSE,
   tol = 1e-10,
-  maxiter = 1000
+  maxiter = 100
 )
 }
 \arguments{
@@ -22,31 +23,31 @@ impute_AR1_Gaussian(
 
 \item{n_samples}{Positive integer indicating the number of imputations (default is \code{1}).}
 
-\item{impute_leading_NAs}{Logical value indicating if the leading missing values of time 
-series are to be imputed (default is \code{FALSE}).}
-
-\item{impute_trailing_NAs}{Logical value indicating if the trailing missing values of time 
-series are to be imputed (default is \code{FALSE}).}
-
 \item{random_walk}{Logical value indicating if the time series is assumed to be a random walk so that \code{phi1 = 1} 
 (default is \code{FALSE}).}
 
 \item{zero_mean}{Logical value indicating if the time series is assumed zero-mean so that \code{phi0 = 0} 
 (default is \code{FALSE}).}
 
+\item{remove_outliers}{Logical value indicating whether to detect and remove outliers.}
+
+\item{outlier_prob_th}{Threshold of probability of observation to declare an outlier (default is \code{1e-3}).}
+
+\item{verbose}{Logical value indicating whether to output messages (default is \code{TRUE}).}
+
 \item{return_estimates}{Logical value indicating if the estimates of the model parameters 
 are to be returned (default is \code{FALSE}).}
 
 \item{tol}{Positive number denoting the relative tolerance used as stopping criterion (default is \code{1e-8}).}
 
-\item{maxiter}{Positive integer indicating the maximum number of iterations allowed (default is \code{1000}).}
+\item{maxiter}{Positive integer indicating the maximum number of iterations allowed (default is \code{100}).}
 }
 \value{
 By default (i.e., for \code{n_samples = 1} and \code{return_estimates = FALSE}), 
         the function will return an imputed time series of the same class and dimensions 
         as the argument \code{y} with one new attribute recording the locations of missing 
         values (the function \code{\link{plot_imputed}} will make use of such information
-        to indicate the imputed values).
+        to indicate the imputed values), as well as locations of outliers removed.
         
         If \code{n_samples > 1}, the function will return a list consisting of \code{n_sample} 
         imputed time series with names: y_imputed.1, y_imputed.2, etc. 
@@ -61,10 +62,11 @@ By default (i.e., for \code{n_samples = 1} and \code{return_estimates = FALSE}),
                              on the number of time series).}
 }
 \description{
-Impute missing values of time series by drawing samples from 
-             the conditional distribution of the missing values given the 
-             observed data based on a Gaussian AR(1) model as estimated 
-             with the function \code{\link{fit_AR1_Gaussian}}.
+Impute inner missing values (excluding leading and trailing ones) 
+             of time series by drawing samples from the conditional distribution 
+             of the missing values given the observed data based on a Gaussian 
+             AR(1) model as estimated with the function \code{\link{fit_AR1_Gaussian}}. 
+             Outliers can be detected and removed.
 }
 \examples{
 library(imputeFin)
@@ -79,6 +81,9 @@ R. J. Little and D. B. Rubin, Statistical Analysis with Missing Data, 2nd ed. Ho
 
 J. Liu, S. Kumar, and D. P. Palomar, "Parameter estimation of heavy-tailed AR model with missing 
 data via stochastic EM," IEEE Trans. on Signal Processing, vol. 67, no. 8, pp. 2159-2172, 15 April, 2019.
+}
+\seealso{
+\code{\link{plot_imputed}}, \code{\link{fit_AR1_Gaussian}}, \code{\link{impute_AR1_t}}
 }
 \author{
 Junyan Liu and Daniel P. Palomar

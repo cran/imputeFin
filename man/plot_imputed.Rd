@@ -7,9 +7,9 @@
 plot_imputed(
   y_imputed,
   column = 1,
-  type = c("ggplot2", "simple"),
-  title = NULL,
-  color_imputed = "red"
+  title = "Imputed time series",
+  color_imputed = "red",
+  type = c("ggplot2", "simple")
 )
 }
 \arguments{
@@ -23,12 +23,12 @@ it will highlight the imputed values in a different color.}
 the argument \code{y_imputed} is coercible to a matrix with more than one 
 column). Default is \code{1}.}
 
-\item{type}{Type of plot. Valid options: \code{"ggplot2"} and \code{"simple"}. Default is 
-\code{"ggplot2"} (the package \code{ggplot2} must be installed).}
-
 \item{title}{Title of the plot (default is \code{"Imputed time series"}).}
 
 \item{color_imputed}{Color for the imputed values (default is \code{"red"}).}
+
+\item{type}{Type of plot. Valid options: \code{"ggplot2"} and \code{"simple"}. Default is 
+\code{"ggplot2"} (the package \code{ggplot2} must be installed).}
 }
 \description{
 Plot single imputed time series (as returned by functions 
@@ -45,5 +45,5 @@ plot_imputed(y_imputed)
 
 }
 \author{
-Daniel P. Palomar and Junyan Liu
+Daniel P. Palomar
 }

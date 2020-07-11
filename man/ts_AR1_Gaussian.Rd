@@ -4,18 +4,20 @@
 \name{ts_AR1_Gaussian}
 \alias{ts_AR1_Gaussian}
 \title{Synthetic AR(1) Gaussian time series with missing values}
-\format{List with the following elements:
+\format{
+List with the following elements:
 \describe{
   \item{y_missing}{300 x 3 \code{zoo} object with three AR(1) Gaussian time 
                    series along the columns: the first column contains a
-                   time series with 10% consecutive missing values; the
-                   second column contains a time series with 10% missing 
+                   time series with 10\% consecutive missing values; the
+                   second column contains a time series with 10\% missing 
                    values randomly distributed; and the third column contains 
                    the union of the previous missing values.}
   \item{phi0}{Value of \code{phi0} used to generate the time series.}
   \item{phi1}{Value of \code{phi1} used to generate the time series.}
   \item{sigma2}{Value of \code{sigma2} used to generate the time series.}
-}}
+}
+}
 \usage{
 data(ts_AR1_Gaussian)
 }

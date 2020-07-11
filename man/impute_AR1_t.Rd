@@ -7,13 +7,14 @@
 impute_AR1_t(
   y,
   n_samples = 1,
-  impute_leading_NAs = FALSE,
-  impute_trailing_NAs = FALSE,
   random_walk = FALSE,
   zero_mean = FALSE,
   fast_and_heuristic = TRUE,
+  remove_outliers = FALSE,
+  outlier_prob_th = 0.001,
+  verbose = TRUE,
   return_estimates = FALSE,
-  tol = 1e-10,
+  tol = 1e-08,
   maxiter = 100,
   K = 30,
   n_burn = 100,
@@ -26,12 +27,6 @@ impute_AR1_t(
 
 \item{n_samples}{Positive integer indicating the number of imputations (default is \code{1}).}
 
-\item{impute_leading_NAs}{Logical value indicating if the leading missing values of time 
-series are to be imputed (default is \code{FALSE}).}
-
-\item{impute_trailing_NAs}{Logical value indicating if the trailing missing values of time 
-series are to be imputed (default is \code{FALSE}).}
-
 \item{random_walk}{Logical value indicating if the time series is assumed to be a random walk so that \code{phi1 = 1} 
 (default is \code{FALSE}).}
 
@@ -41,12 +36,18 @@ series are to be imputed (default is \code{FALSE}).}
 \item{fast_and_heuristic}{Logical value indicating whether a heuristic but fast method is to be used to 
 estimate the parameters of the Student's t AR(1) model (default is \code{TRUE}).}
 
+\item{remove_outliers}{Logical value indicating whether to detect and remove outliers.}
+
+\item{outlier_prob_th}{Threshold of probability of observation to declare an outlier (default is \code{1e-3}).}
+
+\item{verbose}{Logical value indicating whether to output messages (default is \code{TRUE}).}
+
 \item{return_estimates}{Logical value indicating if the estimates of the model parameters 
 are to be returned (default is \code{FALSE}).}
 
 \item{tol}{Positive number denoting the relative tolerance used as stopping criterion (default is \code{1e-8}).}
 
-\item{maxiter}{Positive integer indicating the maximum number of iterations allowed (default is \code{1000}).}
+\item{maxiter}{Positive integer indicating the maximum number of iterations allowed (default is \code{100}).}
 
 \item{K}{Positive number controlling the values of the step sizes in the stochastic EM method 
 (default is \code{30}).}
@@ -64,7 +65,7 @@ By default (i.e., for \code{n_samples = 1} and \code{return_estimates = FALSE}),
         the function will return an imputed time series of the same class and dimensions 
         as the argument \code{y} with one new attribute recording the locations of missing 
         values (the function \code{\link{plot_imputed}} will make use of such information
-        to indicate the imputed values).
+        to indicate the imputed values), as well as locations of outliers removed.
         
         If \code{n_samples > 1}, the function will return a list consisting of \code{n_sample} 
         imputed time series with names: y_imputed.1, y_imputed.2, etc.
@@ -81,10 +82,11 @@ By default (i.e., for \code{n_samples = 1} and \code{return_estimates = FALSE}),
                          on the number of time series).}
 }
 \description{
-Impute missing values of time series by drawing samples from 
-             the conditional distribution of the missing values given the 
-             observed data based on a Student's t AR(1) model as estimated 
-             with the function \code{\link{fit_AR1_t}}.
+Impute inner missing values (excluding leading and trailing ones) 
+             of time series by drawing samples from the conditional distribution 
+             of the missing values given the observed data based on a Student's t 
+             AR(1) model as estimated with the function \code{\link{fit_AR1_t}}. 
+             Outliers can be detected and removed.
 }
 \examples{
 library(imputeFin)
@@ -97,6 +99,9 @@ plot_imputed(y_imputed)
 \references{
 J. Liu, S. Kumar, and D. P. Palomar, "Parameter estimation of heavy-tailed AR model with missing 
 data via stochastic EM," IEEE Trans. on Signal Processing, vol. 67, no. 8, pp. 2159-2172, 15 April, 2019.
+}
+\seealso{
+\code{\link{plot_imputed}}, \code{\link{fit_AR1_t}}, \code{\link{impute_AR1_Gaussian}}
 }
 \author{
 Junyan Liu and Daniel P. Palomar
