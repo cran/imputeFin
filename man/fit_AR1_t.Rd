@@ -121,7 +121,7 @@ J. Liu, S. Kumar, and D. P. Palomar, "Parameter estimation of heavy-tailed AR mo
 data via stochastic EM," IEEE Trans. on Signal Processing, vol. 67, no. 8, pp. 2159-2172, 15 April, 2019.
 }
 \seealso{
-\code{\link{impute_AR1_t}}, \code{\link{fit_AR1_Gaussian}}
+\code{\link{impute_AR1_t}}, \code{\link{fit_AR1_Gaussian}}, \code{\link{fit_VAR_t}}
 }
 \author{
 Junyan Liu and Daniel P. Palomar

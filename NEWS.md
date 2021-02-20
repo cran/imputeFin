@@ -1,3 +1,11 @@
+## Changes in imputeFin version 0.1.2 (2021-02-19)
+
+* New function `fit_VAR_t()` added.
+
+* New wrapper function `impute_rolling_AR1_Gaussian()` to impute on a rolling window basis for long time series.
+
+* New wrapper function `impute_OHLC()` to impute the OHLC conveniently.
+
 
 ## Changes in imputeFin version 0.1.1 (2020-07-11)
 
